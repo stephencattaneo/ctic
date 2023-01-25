@@ -45,11 +45,25 @@ class TestSingleLink:
 
         assert list(lut) == [0,1,2]
 
+
     def test_dedupe(self):
         lut = List(list(range(3)) + list(range(3)))
         lut.dedupe()
 
         assert list(lut) == [0, 1, 2]
+
+    def test_kth_to_last(self):
+        lut = List(range(4))
+
+        assert lut.kth_to_last(1) == 3
+        assert lut.kth_to_last(2) == 2
+
+    def test_partition_by_value(self):
+        lut = List([3, 5, 8, 5, 10, 2 , 1])
+        part1, part2 = lut.partition_by_value(5)
+
+        assert list(part1) == [3, 2, 1]
+        assert list(part2) == [5, 8, 5, 10]
 
 class TestDoubleLink:
     def test_empty_append(self):

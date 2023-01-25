@@ -21,7 +21,7 @@ class List:
             curr = curr.next
         curr.next = Node(data)
 
-    def __len__(self):
+    def __len__(self) -> int:
         count = 0
         curr = self.head
 
@@ -31,11 +31,11 @@ class List:
 
         return count
 
-    def __iter__(self):
+    def __iter__(self): #XXX python3.9 return custom class
         self.iter_cursor = self.head
         return self
 
-    def __next__(self):
+    def __next__(self) -> Any:
         if not self.iter_cursor:
             raise StopIteration
 
@@ -66,7 +66,7 @@ class List:
 
         return False
 
-    def dedupe(self):
+    def dedupe(self) -> None:
         if not self.head:
             return
 
@@ -83,6 +83,34 @@ class List:
                 prev = curr
                 curr = curr.next
 
+    def kth_to_last(self, nth: int) -> Any:
+        target = len(self) - nth + 1
+
+        if target < 1:
+            return None
+
+        count = 1
+        curr = self.head
+
+        while count < target:
+            curr = curr.next
+            count += 1
+
+        return curr.data
+
+    def partition_by_value(self, partition: int) -> Any:
+        curr = self.head
+        before = List()
+        after = List()
+
+        while curr:
+            if curr.data < partition:
+                before.append(curr.data)
+            else:
+                after.append(curr.data)
+            curr = curr.next
+
+        return before, after
 
 class DoubleList(List):
     tail = None
