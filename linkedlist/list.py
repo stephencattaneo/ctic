@@ -31,6 +31,20 @@ class List:
 
         return count
 
+    def __iter__(self):
+        self.iter_cursor = self.head
+        return self
+
+    def __next__(self):
+        if not self.iter_cursor:
+            raise StopIteration
+
+        value = self.iter_cursor.data
+        self.iter_cursor = self.iter_cursor.next
+
+        return value
+
+
     def delete(self, value: Any) -> bool:
         if not self.head:
             return False
@@ -51,6 +65,23 @@ class List:
             curr = curr.next
 
         return False
+
+    def dedupe(self):
+        if not self.head:
+            return
+
+        values = {self.head.data: True}
+
+        prev = self.head
+        curr = self.head.next
+
+        while curr:
+            if curr.data in values:
+                curr = prev.next = curr.next
+            else:
+                values[curr.data] = True
+                prev = curr
+                curr = curr.next
 
 
 class DoubleList(List):

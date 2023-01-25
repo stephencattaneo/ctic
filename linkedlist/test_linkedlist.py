@@ -40,6 +40,17 @@ class TestSingleLink:
 
         assert lut.head.next.data == 2
 
+    def test_cast_to_list(self):
+        lut = List(range(3))
+
+        assert list(lut) == [0,1,2]
+
+    def test_dedupe(self):
+        lut = List(list(range(3)) + list(range(3)))
+        lut.dedupe()
+
+        assert list(lut) == [0, 1, 2]
+
 class TestDoubleLink:
     def test_empty_append(self):
         lut = DoubleList()
