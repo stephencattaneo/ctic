@@ -45,6 +45,11 @@ class TestSingleLink:
 
         assert list(lut) == [0,1,2]
 
+    def test_prepend(self):
+        lut = List(range(3))
+        lut.prepend(-1)
+
+        assert list(lut) == [-1,0,1,2]
 
     def test_dedupe(self):
         lut = List(list(range(3)) + list(range(3)))
@@ -64,6 +69,20 @@ class TestSingleLink:
 
         assert list(part1) == [3, 2, 1]
         assert list(part2) == [5, 8, 5, 10]
+
+
+    def test_sum_lists(self):
+        lut1 = List([1,1,0,2])
+        lut2 = List([8,9,9])
+
+        assert list(lut1.sum(lut2)) == [2,0,0,1]
+
+    def test_reverse_order_sum_lists(self):
+        lut1 = List([0,0,1])
+        lut2 = List([9,9,9])
+
+        assert list(lut1.reverse_order_sum(lut2)) == [9,9,0,1]
+
 
 class TestDoubleLink:
     def test_empty_append(self):

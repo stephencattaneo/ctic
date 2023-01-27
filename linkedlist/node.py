@@ -4,8 +4,9 @@ class Node:
     data = None
     next = None
 
-    def __init__(self, data: Any) -> None:
+    def __init__(self, data: Any, next: Any = None) -> None:
         self.data = data
+        self.next = next
 
 class DoubleNode(Node):
     previous = None

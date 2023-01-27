@@ -2,7 +2,6 @@ from typing import Any
 
 from .node import Node, DoubleNode
 
-
 class List:
     head = None
 
@@ -20,6 +19,9 @@ class List:
         while curr.next:
             curr = curr.next
         curr.next = Node(data)
+
+    def prepend(self, data: Any) -> None:
+        self.head = Node(data, next=self.head)
 
     def __len__(self) -> int:
         count = 0
@@ -60,7 +62,7 @@ class List:
             if curr.data == value:
                 prev.next = curr.next
                 return True
-            
+
             prev = curr
             curr = curr.next
 
@@ -112,6 +114,87 @@ class List:
 
         return before, after
 
+    def sum(self, other: Any) -> Any:
+        self_len = len(self)
+        other_len = len(other)
+
+        self_curr = self.head
+        other_curr = other.head
+
+        # 1. need to ensure lists are the same length which may require padding.
+        # 2. do not mutate self or other
+
+        if self_len < other_len:
+            self_curr = self.__pad_list(self_curr, other_len - self_len)
+        elif other_len < self_len:
+            other_curr = self.__pad_list(other_curr, self_len - other_len)
+
+        summed_list = List()
+        lower_digits = self.__sum_helper(self_curr, other_curr)
+
+        if lower_digits["carry"]:
+            summed_list.head = Node(lower_digits["carry"])
+            summed_list.head.next = lower_digits["node"]
+        else:
+            summed_list.head = lower_digits["node"]
+
+        return summed_list
+
+    def __pad_list(self, l1: Any, count: int) -> Any:
+        l2_head = None
+        curr = None
+
+        while count > 0:
+            if not l2_head:
+                l2_head = curr = Node(0)
+            else:
+                curr.next = Node(0)
+                curr = curr.next
+            count -= 1
+
+        while l1:
+            curr.next = Node(l1.data)
+            curr = curr.next
+            l1 = l1.next
+
+        return l2_head
+
+    def __sum_helper(self, l1, l2) -> dict:
+        if not l1: # assume even sized lists
+            return {
+                "node": None,
+                "carry": 0
+            }
+
+        prevDigit = self.__sum_helper(l1.next, l2.next)
+        total = l1.data + l2.data + prevDigit["carry"]
+        node = Node(total % 10)
+        node.next = prevDigit["node"]
+
+        return {
+            "node": node,
+            "carry": total // 10
+        }
+
+
+
+    def reverse_order_sum(self, other: Any) -> Any:
+        carry_over = 0
+        out = List()
+        self_cur = self.head
+        other_cur = other.head
+
+        while self_cur or other_cur or carry_over:
+            total = getattr(self_cur, 'data', 0) + getattr(other_cur, 'data', 0) + carry_over
+            carry_over = total // 10
+            out.append(total % 10)
+
+            self_cur = getattr(self_cur, 'next', None)
+            other_cur = getattr(other_cur, 'next', None)
+
+        return out
+
+
 class DoubleList(List):
     tail = None
 
@@ -140,7 +223,7 @@ class DoubleList(List):
                 prev.next = curr.next
                 curr.next.previous = prev
                 return True
-            
+
             prev = curr
             curr = curr.next
 
