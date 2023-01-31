@@ -33,6 +33,18 @@ class List:
 
         return count
 
+    def len_and_tail(self) -> list:
+        count = 0
+        curr = self.head
+        last = None
+
+        while curr:
+            last = curr
+            curr = curr.next
+            count += 1
+
+        return count, last
+
     def __iter__(self): #XXX python3.9 return custom class
         self.iter_cursor = self.head
         return self
@@ -176,8 +188,6 @@ class List:
             "carry": total // 10
         }
 
-
-
     def reverse_order_sum(self, other: Any) -> Any:
         carry_over = 0
         out = List()
@@ -216,26 +226,58 @@ class List:
 
         return True
 
-    def does_intersect(self, other: Any) -> Any:
-        cur = self.head
-
-        seen = {}
-
-        while cur:
-            seen[cur] = True
-            cur = cur.next
-
-        cur = other.head
-        while cur:
-            if cur in seen:
-                return cur
-            cur = cur.next
-
-        return None
-
-
     def __palendrom_helper(self, left, right):
         return left == right
+
+    def does_intersect(self, other: Any) -> Any:
+        # # !! this works but requires additional storage
+        # cur = self.head
+        # seen = {}
+        # while cur:
+        #     seen[cur] = True
+        #     cur = cur.next
+
+        # cur = other.head
+        # while cur:
+        #     if cur in seen:
+        #         return cur
+        #     cur = cur.next
+
+        # return None
+
+        # !! No additional storage required
+        # count & compare tails
+        self_count, self_tail = self.len_and_tail()
+        other_count, other_tail = other.len_and_tail()
+
+        if self_tail != other_tail:
+            return None
+
+        # move cursor of longer forward until same length
+        self_curr = self.head
+        other_curr = other.head
+        diff = abs(self_count - other_count)
+        if self_count > other_count:
+            self_curr = self.node_at(diff)
+        else:
+            other_curr = other.node_at(diff)
+
+        # compare until same node is found
+        while self_curr and other_curr:
+            if self_curr == other_curr:
+                return self_curr
+
+            self_curr = self_curr.next
+            other_curr = other_curr.next
+
+    def node_at(self, count: int) -> Any:
+        curr = self.head
+        while count > 0 and curr:
+            count -= 1
+            curr = curr.next
+
+        return curr
+
 class DoubleList(List):
     tail = None
 
