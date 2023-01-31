@@ -83,6 +83,10 @@ class TestSingleLink:
 
         assert list(lut1.reverse_order_sum(lut2)) == [9,9,0,1]
 
+    def test_is_palendrom(self):
+        assert List([5,0,1,2,1,0,5]).is_palendrom() is True
+        assert List([5,0,1,1,0,5]).is_palendrom() is True
+        assert List([5,0,1,2,0,5]).is_palendrom() is False
 
 class TestDoubleLink:
     def test_empty_append(self):

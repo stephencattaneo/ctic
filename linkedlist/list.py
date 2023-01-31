@@ -194,7 +194,31 @@ class List:
 
         return out
 
+    def is_palendrom(self):
+        other = List()
 
+        cur = self.head
+        count = 0
+        while cur:
+            other.prepend(cur.data)
+            cur = cur.next
+            count += 1
+
+        cur = self.head
+        other_cur = other.head
+        count = (count // 2) + (count % 2) # only need to compare 60% of the string
+        while count > 0:
+            if not cur.data == other_cur.data:
+                return False
+            cur = cur.next
+            other_cur = other_cur.next
+            count -= 1
+
+        return True
+
+
+    def __palendrom_helper(self, left, right):
+        return left == right
 class DoubleList(List):
     tail = None
 
