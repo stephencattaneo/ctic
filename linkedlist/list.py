@@ -216,6 +216,23 @@ class List:
 
         return True
 
+    def does_intersect(self, other: Any) -> Any:
+        cur = self.head
+
+        seen = {}
+
+        while cur:
+            seen[cur] = True
+            cur = cur.next
+
+        cur = other.head
+        while cur:
+            if cur in seen:
+                return cur
+            cur = cur.next
+
+        return None
+
 
     def __palendrom_helper(self, left, right):
         return left == right

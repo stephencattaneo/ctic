@@ -88,6 +88,16 @@ class TestSingleLink:
         assert List([5,0,1,1,0,5]).is_palendrom() is True
         assert List([5,0,1,2,0,5]).is_palendrom() is False
 
+    def test_does_intersect(self):
+        lut = List(range(4))
+        intersect = List([0])
+        intersect.head.next = lut.head.next.next
+
+        assert lut.does_intersect(intersect) == lut.head.next.next
+
+        does_not = List(range(4))
+
+        assert lut.does_intersect(does_not) is None
 class TestDoubleLink:
     def test_empty_append(self):
         lut = DoubleList()
