@@ -19,6 +19,7 @@ class List:
         while curr.next:
             curr = curr.next
         curr.next = Node(data)
+        return curr.next
 
     def prepend(self, data: Any) -> None:
         self.head = Node(data, next=self.head)
@@ -277,6 +278,28 @@ class List:
             curr = curr.next
 
         return curr
+
+    def find_loop(self) -> Any:
+        cur1 = self.head
+        cur2 = self.head
+
+        while cur1 and cur2:
+            cur1 = cur1.next
+            cur2 = getattr(cur2, 'next', None)
+            cur2 = getattr(cur2, 'next', None)
+            if cur1 == cur2:
+                break
+
+        if not (cur1 and cur2):
+            return None
+
+        cur1 = self.head
+
+        while cur1 != cur2:
+            cur1 = cur1.next
+            cur2 = cur2.next
+
+        return cur2
 
 class DoubleList(List):
     tail = None

@@ -98,6 +98,17 @@ class TestSingleLink:
         does_not = List(range(4))
 
         assert lut.does_intersect(does_not) is None
+
+    def test_find_loop(self):
+        lut = List(range(5))
+        tail = lut.append(5)
+        cycle = lut.head.next.next
+        tail.next = cycle
+
+        assert lut.find_loop() == cycle
+
+        assert (List(range(4))).find_loop() is None
+
 class TestDoubleLink:
     def test_empty_append(self):
         lut = DoubleList()
