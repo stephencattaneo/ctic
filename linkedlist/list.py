@@ -280,6 +280,11 @@ class List:
         return curr
 
     def find_loop(self) -> Any:
+        '''
+          TLDR - 2 cursors, move for 2nd cursor twice as fast.
+          if there is a loop eventually cur1 and cur2 will be the samething.
+          if not cur1 will reach the end
+        '''
         cur1 = self.head
         cur2 = self.head
 

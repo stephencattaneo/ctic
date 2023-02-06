@@ -19,7 +19,3 @@ def test_sanity():
 
     with raises(Exception):
         sut.peek()
-
-
-
-
